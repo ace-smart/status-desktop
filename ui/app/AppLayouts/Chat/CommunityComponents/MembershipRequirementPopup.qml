@@ -34,39 +34,28 @@ ModalPopup {
             width: parent.width
             spacing: Style.current.padding
 
-            Item {
-                width: parent.width
-                height: childrenRect.height
+            MembershipRadioButton {
+                text: qsTr("Require approval")
+                description: qsTr("Your community is free to join, but new members are required to be approved by the community creator first")
+                buttonGroup: membershipRequirementGroup
+            }
 
-                StatusRadioButtonRow {
-                    id: radioBtn
-                    text: qsTr("Require ENS username")
-                    buttonGroup: membershipRequirementGroup
-//                    checked: appSettings.notificationSetting === Constants.notifyAllMessages
-                    onRadioCheckedChanged: {
-//                        if (checked) {
-//                            appSettings.notificationSetting = Constants.notifyAllMessages
-//                        }
-                    }
-                }
+            MembershipRadioButton {
+                text: qsTr("Require invite from another member")
+                description: qsTr("Your community can only be joined by an invitation from existing community members")
+                buttonGroup: membershipRequirementGroup
+            }
 
-                StyledText {
-                    id: radioDesc
-                    text: qsTr("Your community requires an ENS username to be able to join")
-                    anchors.top: radioBtn.bottom
-                    anchors.topMargin: Style.current.halfPadding
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.rightMargin: 100
-                    font.pixelSize: 13
-                    color: Style.current.secondaryText
-                    wrapMode: Text.WordWrap
-                }
+            MembershipRadioButton {
+                text: qsTr("Require ENS username")
+                description: qsTr("Your community requires an ENS username to be able to join")
+                buttonGroup: membershipRequirementGroup
+            }
 
-                Separator {
-                    anchors.top: radioDesc.bottom
-                    anchors.topMargin: Style.current.halfPadding
-                }
+            MembershipRadioButton {
+                text: qsTr("No requirement")
+                description: qsTr("Your community is free for anyone to join")
+                buttonGroup: membershipRequirementGroup
             }
         }
     }

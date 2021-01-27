@@ -179,6 +179,7 @@ DISTFILES += \
     app/AppLayouts/Chat/CommunityComponents/CreateCommunityPopup.qml \
     app/AppLayouts/Chat/CommunityComponents/ImportCommunityPopup.qml \
     app/AppLayouts/Chat/CommunityComponents/InviteFriendsToCommunityPopup.qml \
+    app/AppLayouts/Chat/CommunityComponents/MembershipRadioButton.qml \
     app/AppLayouts/Chat/CommunityComponents/MembershipRequirementPopup.qml \
     app/AppLayouts/Chat/ContactsColumn/AddChat.qml \
     app/AppLayouts/Chat/ContactsColumn/ClosedEmptyView.qml \
