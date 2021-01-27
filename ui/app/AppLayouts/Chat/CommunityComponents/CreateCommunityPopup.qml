@@ -65,8 +65,10 @@ ModalPopup {
 
         id: scrollView
         anchors.fill: parent
-        rightPadding: Style.current.padding
-        anchors.rightMargin: - Style.current.halfPadding
+        rightPadding: Style.current.bigPadding
+        anchors.rightMargin: - Style.current.bigPadding
+        leftPadding: Style.current.bigPadding
+        anchors.leftMargin: - Style.current.bigPadding
         contentHeight: content.height
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
@@ -251,22 +253,14 @@ ModalPopup {
                 visible: !isEdit
             }
 
-            Item {
-                visible: !isEdit
-                id: privateSwitcher
-                height: visible ? privateSwitch.height : 0
-                width: parent.width
+            StatusSettingsLineButton {
+                id: membershipRequirementSetting
                 anchors.top: separator1.bottom
-                anchors.topMargin: isEdit ? 0 : Style.current.smallPadding * 2
-
-                StyledText {
-                    text: qsTr("Private community")
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                StatusSwitch {
-                    id: privateSwitch
-                    anchors.right: parent.right
+                anchors.topMargin: Style.current.halfPadding
+                text: qsTr("Membership requirement")
+                currentValue: qsTr("No requirement")
+                onClicked: {
+                    membershipRequirementSettingPopup.open()
                 }
             }
 
@@ -274,14 +268,16 @@ ModalPopup {
                 visible: !isEdit
                 height: visible ? 50 : 0
                 id: privateExplanation
-                anchors.top: privateSwitcher.bottom
+                anchors.top: membershipRequirementSetting.bottom
                 wrapMode: Text.WordWrap
                 anchors.topMargin: isEdit ? 0 : Style.current.smallPadding * 2
                 width: parent.width
-                text: privateSwitch.checked ?
-                          qsTr("Only members with an invite link will be able to join your community. Private communities are not listed inside Status") :
-                          qsTr("Your community will be public for anyone to join. Public communities are listed inside Status for easy discovery")
+                text: qsTr("You can require new members to meet certain criteria before they can join. This can be changed at any time")
             }
+        }
+
+        MembershipRequirementPopup {
+            id: membershipRequirementSettingPopup
         }
     }
 
