@@ -258,7 +258,13 @@ ModalPopup {
                 anchors.top: separator1.bottom
                 anchors.topMargin: Style.current.halfPadding
                 text: qsTr("Membership requirement")
-                currentValue: qsTr("No requirement")
+                currentValue: {
+                    switch (membershipRequirementSettingPopup.checkedMembership) {
+                    case Constants.communityChatInvitationOnlyAccess: return qsTr("Require invite from another member")
+                    case Constants.communityChatOnRequestAccess: return qsTr("Require approval")
+                    default: return qsTr("No requirement")
+                    }
+                }
                 onClicked: {
                     membershipRequirementSettingPopup.open()
                 }

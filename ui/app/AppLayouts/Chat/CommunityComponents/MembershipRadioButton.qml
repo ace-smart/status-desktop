@@ -11,6 +11,7 @@ Item {
     property string description
     property var buttonGroup
     property bool checked: false
+    property bool hideSeparator: false
     signal radioCheckedChanged(bool checked)
 
     id: root
@@ -41,7 +42,8 @@ Item {
     }
 
     Separator {
+        visible: !root.hideSeparator
         anchors.top: radioDesc.bottom
-        anchors.topMargin: Style.current.halfPadding
+        anchors.topMargin: visible ? Style.current.halfPadding : 0
     }
 }

@@ -7,8 +7,10 @@ import "../../../../shared"
 import "../../../../shared/status"
 
 ModalPopup {
+    property int checkedMembership: Constants.communityChatPublicAccess
+
     id: popup
-    height: 480
+    height: 600
 
     title: qsTr("Membership requirement")
 
@@ -38,54 +40,61 @@ ModalPopup {
                 text: qsTr("Require approval")
                 description: qsTr("Your community is free to join, but new members are required to be approved by the community creator first")
                 buttonGroup: membershipRequirementGroup
+                checked: popup.checkedMembership === Constants.communityChatOnRequestAccess
+                onRadioCheckedChanged: {
+                    if (checked) {
+                        popup.checkedMembership = Constants.communityChatOnRequestAccess
+                    }
+                }
             }
 
             MembershipRadioButton {
                 text: qsTr("Require invite from another member")
                 description: qsTr("Your community can only be joined by an invitation from existing community members")
                 buttonGroup: membershipRequirementGroup
+                checked: popup.checkedMembership === Constants.communityChatInvitationOnlyAccess
+                onRadioCheckedChanged: {
+                    if (checked) {
+                        popup.checkedMembership = Constants.communityChatInvitationOnlyAccess
+                    }
+                }
             }
 
-            MembershipRadioButton {
-                text: qsTr("Require ENS username")
-                description: qsTr("Your community requires an ENS username to be able to join")
-                buttonGroup: membershipRequirementGroup
-            }
+            // This should be a check box
+//            MembershipRadioButton {
+//                text: qsTr("Require ENS username")
+//                description: qsTr("Your community requires an ENS username to be able to join")
+//                buttonGroup: membershipRequirementGroup
+//            }
 
             MembershipRadioButton {
                 text: qsTr("No requirement")
                 description: qsTr("Your community is free for anyone to join")
                 buttonGroup: membershipRequirementGroup
+                hideSeparator: true
+                checked: popup.checkedMembership === Constants.communityChatPublicAccess
+                onRadioCheckedChanged: {
+                    if (checked) {
+                        popup.checkedMembership = Constants.communityChatPublicAccess
+                    }
+                }
             }
         }
     }
 
-    footer: StatusButton {
-        text: qsTr("Create")
-        anchors.right: parent.right
+    footer: StatusIconButton {
+        id: backButton
+        icon.name: "leave_chat"
+        width: 44
+        height: 44
+        iconColor: Style.current.primary
+        highlighted: true
+        icon.color: Style.current.primary
+        icon.width: 28
+        icon.height: 28
+        radius: width / 2
         onClicked: {
-            if (!validate()) {
-                scrollView.scrollBackUp()
-                return
-            }
-            const error = chatsModel.createCommunityChannel(communityId,
-                                                            Utils.filterXSS(nameInput.text),
-                                                            Utils.filterXSS(descriptionTextArea.text))
-
-            if (error) {
-                creatingError.text = error
-                return creatingError.open()
-            }
-
-            // TODO Open the community once we have designs for it
             popup.close()
-        }
-
-        MessageDialog {
-            id: creatingError
-            title: qsTr("Error creating the community")
-            icon: StandardIcon.Critical
-            standardButtons: StandardButton.Ok
         }
     }
 }
